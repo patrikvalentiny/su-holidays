@@ -1,0 +1,25 @@
+# HOLIDAY REQUEST FORM
+
+**EMPLOYEE NAME:**
+
+**EMPLOYEE CPR NUMBER:**  
+
+**COMPANY NAME:**
+
+**COMPANY CVR:**
+
+## HOLIDAYS REQUESTED
+
+**FROM:**  (DD-MM-YYYY)
+
+**TO:**   (DD-MM-YYYY)
+
+**TOTAL NUMBER OF WORKING DAYS:** [WORKING DAYS]
+
+## SIGNATURES
+
+**EMPLOYEE SIGNATURE**      **EMPLOYER SIGNATURE**
+
+_____________________      ______________________
+
+**DATE OF SIGNATURE:**   (DD-MM-YYYY)

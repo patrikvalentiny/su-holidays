@@ -1,0 +1,76 @@
+import { useState, useCallback } from 'react'
+import type { HolidayRequestData } from '../types'
+import { validateCPR, validateCVR } from '../utils/validation'
+
+const INITIAL_STATE: HolidayRequestData = {
+    employeeName: '',
+    employeeCPR: '',
+    companyName: '',
+    companyCVR: '',
+    fromDate: '',
+    toDate: '',
+    workingDays: '',
+    employeeSignatureDate: '',
+}
+
+export const useHolidayRequestForm = () => {
+    const [formData, setFormData] = useState<HolidayRequestData>(INITIAL_STATE)
+    const [errors, setErrors] = useState<Partial<Record<keyof HolidayRequestData, string>>>({})
+
+    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }))
+
+        // Clear error when user changes input
+        if (errors[name as keyof HolidayRequestData]) {
+            setErrors((prev) => ({ ...prev, [name]: undefined }))
+        }
+
+        // Validate specific fields on change
+        if (name === 'employeeCPR') {
+            if (value && !validateCPR(value)) {
+                setErrors((prev) => ({ ...prev, employeeCPR: 'Invalid CPR format (DDMMYY-SSSS or DDMMYYSSSS)' }))
+            } else {
+                setErrors((prev) => ({ ...prev, employeeCPR: undefined }))
+            }
+        }
+
+        if (name === 'companyCVR') {
+            if (value && !validateCVR(value)) {
+                setErrors((prev) => ({ ...prev, companyCVR: 'Invalid CVR format (8 digits)' }))
+            } else {
+                setErrors((prev) => ({ ...prev, companyCVR: undefined }))
+            }
+        }
+    }, [errors])
+
+    const handleReset = useCallback(() => {
+        setFormData(INITIAL_STATE)
+        setErrors({})
+    }, [])
+
+    const isFormValid = useCallback((): boolean => {
+        const isValid = !!(
+            formData.employeeName &&
+            formData.employeeCPR &&
+            formData.fromDate &&
+            formData.toDate &&
+            formData.workingDays &&
+            formData.employeeSignatureDate &&
+            validateCPR(formData.employeeCPR) &&
+            validateCVR(formData.companyCVR)
+        )
+        return isValid
+    }, [formData])
+
+    return {
+        formData,
+        errors,
+        handleChange,
+        handleReset,
+        isFormValid,
+    }
+}
