@@ -17,6 +17,7 @@ export const CompanySection: React.FC<CompanySectionProps> = ({ data, errors, on
                 value={data.companyName}
                 onChange={onChange}
                 label="Company Name"
+                required
                 placeholder="Enter company name"
             />
             <FormInput
@@ -26,6 +27,7 @@ export const CompanySection: React.FC<CompanySectionProps> = ({ data, errors, on
                 onChange={onChange}
                 label="Company CVR"
                 placeholder="8 digits"
+                required
                 error={errors.companyCVR}
             />
         </FormSection>
