@@ -20,7 +20,7 @@ export const FormInput: React.FC<FormInputProps> = ({
     return (
         <label className="form-control w-full">
             <div className="label">
-                <span className="label-text font-medium">
+                <span className="text-base-content font-medium">
                     {label}
                     {required && <span className="text-error ml-1">*</span>}
                 </span>

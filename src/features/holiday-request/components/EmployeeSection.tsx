@@ -6,11 +6,13 @@ interface EmployeeSectionProps {
     data: HolidayRequestData
     errors: Partial<Record<keyof HolidayRequestData, string>>
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    isValid?: boolean
+    onReset?: () => void
 }
 
-export const EmployeeSection: React.FC<EmployeeSectionProps> = ({ data, errors, onChange }) => {
+export const EmployeeSection: React.FC<EmployeeSectionProps> = ({ data, errors, onChange, isValid, onReset }) => {
     return (
-        <FormSection title="Employee Information">
+        <FormSection title="Employee Information" isValid={isValid} onReset={onReset}>
             <FormInput
                 type="text"
                 name="employeeName"

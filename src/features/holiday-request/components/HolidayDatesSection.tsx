@@ -5,11 +5,18 @@ import type { HolidayRequestData } from '../types'
 interface HolidayDatesSectionProps {
     data: HolidayRequestData
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    isValid?: boolean
+    onReset?: () => void
 }
 
-export const HolidayDatesSection: React.FC<HolidayDatesSectionProps> = ({ data, onChange }) => {
+export const HolidayDatesSection: React.FC<HolidayDatesSectionProps> = ({ data, onChange, isValid, onReset }) => {
+    const dateRangeError =
+        data.fromDate && data.toDate && data.toDate < data.fromDate
+            ? 'End date cannot be before start date'
+            : undefined
+
     return (
-        <FormSection title="Holiday Dates">
+        <FormSection title="Holiday Dates" isValid={isValid} onReset={onReset}>
             <div className="grid grid-cols-2 gap-4">
                 <FormInput
                     type="date"
@@ -18,6 +25,7 @@ export const HolidayDatesSection: React.FC<HolidayDatesSectionProps> = ({ data, 
                     onChange={onChange}
                     label="From Date"
                     required
+                    error={dateRangeError}
                 />
                 <FormInput
                     type="date"
@@ -26,6 +34,7 @@ export const HolidayDatesSection: React.FC<HolidayDatesSectionProps> = ({ data, 
                     onChange={onChange}
                     label="To Date"
                     required
+                    error={dateRangeError}
                 />
             </div>
             <FormInput
@@ -36,7 +45,8 @@ export const HolidayDatesSection: React.FC<HolidayDatesSectionProps> = ({ data, 
                 label="Total Working Days"
                 required
                 min="0"
-                step="0.5"
+                step="1"
+                hint="Expected number of working days during holidays"
             />
         </FormSection>
     )

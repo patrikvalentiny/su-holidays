@@ -60,15 +60,35 @@ export const useHolidayRequestForm = () => {
             formData.workingDays &&
             formData.employeeSignatureDate &&
             validateCPR(formData.employeeCPR) &&
-            validateCVR(formData.companyCVR)
+            validateCVR(formData.companyCVR) &&
+            (!formData.fromDate || !formData.toDate || formData.fromDate <= formData.toDate) &&
+            formData.companyName
         )
         return isValid
     }, [formData])
+
+    const resetSection = useCallback((fields: (keyof HolidayRequestData)[]) => {
+        setFormData((prev) => {
+            const updated = { ...prev }
+            fields.forEach((field) => {
+                updated[field] = INITIAL_STATE[field]
+            })
+            return updated
+        })
+        setErrors((prev) => {
+            const updated = { ...prev }
+            fields.forEach((field) => {
+                updated[field] = undefined
+            })
+            return updated
+        })
+    }, [setFormData])
 
     return {
         formData,
         errors,
         handleChange,
         isFormValid,
+        resetSection,
     }
 }

@@ -3,9 +3,5 @@ export const formatDateForPDF = (dateString: string): string => {
     const date = new Date(dateString)
     if (isNaN(date.getTime())) return dateString
 
-    const day = date.getDate().toString().padStart(2, '0')
-    const month = (date.getMonth() + 1).toString().padStart(2, '0')
-    const year = date.getFullYear()
-
-    return `${day}-${month}-${year}`
+    return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
 }

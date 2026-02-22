@@ -12,6 +12,13 @@ interface HolidayRequestFormProps {
     errors: Partial<Record<keyof HolidayRequestData, string>>
     onFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     isFormValid: () => boolean
+    onResetSection: (fields: (keyof HolidayRequestData)[]) => void
+}
+
+const getSectionStatus = (filled: boolean[], hasError: boolean): boolean | undefined => {
+    const anyFilled = filled.some(Boolean)
+    if (!anyFilled && !hasError) return undefined
+    return filled.every(Boolean) && !hasError ? true : false
 }
 
 export const HolidayRequestForm: React.FC<HolidayRequestFormProps> = ({
@@ -19,18 +26,36 @@ export const HolidayRequestForm: React.FC<HolidayRequestFormProps> = ({
     errors,
     onFormChange,
     isFormValid,
+    onResetSection,
 }) => {
     const isValid = isFormValid()
 
+    const employeeStatus = getSectionStatus(
+        [!!formData.employeeName, !!formData.employeeCPR],
+        !!errors.employeeCPR
+    )
+    const companyStatus = getSectionStatus(
+        [!!formData.companyName, !!formData.companyCVR],
+        !!errors.companyCVR
+    )
+    const datesStatus = getSectionStatus(
+        [!!formData.fromDate, !!formData.toDate, !!formData.workingDays],
+        formData.fromDate && formData.toDate && formData.fromDate > formData.toDate ? true : false
+    )
+    const signatureStatus = getSectionStatus(
+        [!!formData.employeeSignatureDate],
+        false
+    )
+
     return (
         <form className="space-y-2">
-            <EmployeeSection data={formData} errors={errors} onChange={onFormChange} />
-            <CompanySection data={formData} errors={errors} onChange={onFormChange} />
-            <HolidayDatesSection data={formData} onChange={onFormChange} />
-            <SignatureSection data={formData} onChange={onFormChange} />
+            <EmployeeSection data={formData} errors={errors} onChange={onFormChange} isValid={employeeStatus} onReset={() => onResetSection(['employeeName', 'employeeCPR'])} />
+            <CompanySection data={formData} errors={errors} onChange={onFormChange} isValid={companyStatus} onReset={() => onResetSection(['companyName', 'companyCVR'])} />
+            <HolidayDatesSection data={formData} onChange={onFormChange} isValid={datesStatus} onReset={() => onResetSection(['fromDate', 'toDate', 'workingDays'])} />
+            <SignatureSection data={formData} onChange={onFormChange} isValid={signatureStatus} onReset={() => onResetSection(['employeeSignatureDate'])} />
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-6">
+            <div className="flex flex-col sm:flex-row gap-4 pt-2">
                 {isValid ? (
                     <Suspense fallback={<button disabled className="flex-1 btn btn-primary p-2">Loading...</button>}>
                         <PDFDownloadButton data={formData} />
@@ -41,45 +66,6 @@ export const HolidayRequestForm: React.FC<HolidayRequestFormProps> = ({
                     </button>
                 )}
             </div>
-
-
-            {/* Helper Text */}
-            {!isValid ? (
-                <div role="alert" className="alert alert-info mt-6">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        className="stroke-current shrink-0 w-6 h-6"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path>
-                    </svg>
-                    <span>Required fields must be filled to generate the PDF</span>
-                </div>
-            ) : (
-                <div className="alert alert-success mt-6">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        className="stroke-current shrink-0 w-6 h-6"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path>
-                    </svg>
-                    <span>All required fields are filled. You can now download the PDF.</span>
-                </div>
-            )}
-
-
         </form>
     )
 }
