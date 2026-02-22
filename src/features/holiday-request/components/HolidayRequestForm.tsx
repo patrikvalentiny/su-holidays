@@ -1,17 +1,16 @@
-import { PDFDownloadLink } from '@react-pdf/renderer'
-import { Button } from '../../../components/Button'
+import { lazy, Suspense } from 'react'
 import type { HolidayRequestData } from '../types'
-import { HolidayRequestPDF } from './HolidayRequestPDF'
 import { EmployeeSection } from './EmployeeSection'
 import { CompanySection } from './CompanySection'
 import { HolidayDatesSection } from './HolidayDatesSection'
 import { SignatureSection } from './SignatureSection'
 
+const PDFDownloadButton = lazy(() => import('./PDFDownloadButton'))
+
 interface HolidayRequestFormProps {
     formData: HolidayRequestData
     errors: Partial<Record<keyof HolidayRequestData, string>>
     onFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-    onReset: () => void
     isFormValid: () => boolean
 }
 
@@ -19,13 +18,12 @@ export const HolidayRequestForm: React.FC<HolidayRequestFormProps> = ({
     formData,
     errors,
     onFormChange,
-    onReset,
     isFormValid,
 }) => {
     const isValid = isFormValid()
 
     return (
-        <form className="space-y-6">
+        <form className="space-y-2">
             <EmployeeSection data={formData} errors={errors} onChange={onFormChange} />
             <CompanySection data={formData} errors={errors} onChange={onFormChange} />
             <HolidayDatesSection data={formData} onChange={onFormChange} />
@@ -33,60 +31,53 @@ export const HolidayRequestForm: React.FC<HolidayRequestFormProps> = ({
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                <Button variant="secondary" onClick={onReset} className="flex-1 btn-outline">
-                    Reset Form
-                </Button>
                 {isValid ? (
-                    <PDFDownloadLink
-                        document={<HolidayRequestPDF data={formData} />}
-                        fileName={`Holiday_Request_${formData.employeeName.replace(/\s+/g, '_')}.pdf`}
-                        className="btn btn-primary flex-1"
-                    >
-                        {({ loading }) => (loading ? 'Loading...' : 'Download PDF')}
-                    </PDFDownloadLink>
+                    <Suspense fallback={<button disabled className="flex-1 btn btn-primary p-2">Loading...</button>}>
+                        <PDFDownloadButton data={formData} />
+                    </Suspense>
                 ) : (
-                    <Button variant="primary" disabled className="flex-1 btn-disabled">
+                    <button disabled className="flex-1 btn btn-primary btn-disabled p-2">
                         Fill All Fields to Generate PDF
-                    </Button>
+                    </button>
                 )}
             </div>
 
-                
+
             {/* Helper Text */}
-             {!isValid ? (
-            <div role="alert" className="alert alert-info mt-6">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    className="stroke-current shrink-0 w-6 h-6"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    ></path>
-                </svg>
-                <span>Required fields must be filled to generate the PDF</span>
-            </div>
-             ) : (
+            {!isValid ? (
+                <div role="alert" className="alert alert-info mt-6">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        className="stroke-current shrink-0 w-6 h-6"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                    </svg>
+                    <span>Required fields must be filled to generate the PDF</span>
+                </div>
+            ) : (
                 <div className="alert alert-success mt-6">
-                    <svg                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    className="stroke-current shrink-0 w-6 h-6"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    ></path>
-                </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        className="stroke-current shrink-0 w-6 h-6"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                    </svg>
                     <span>All required fields are filled. You can now download the PDF.</span>
                 </div>
-             )}
+            )}
 
 
         </form>

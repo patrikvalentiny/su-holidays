@@ -3,7 +3,30 @@ import react from '@vitejs/plugin-react-swc'
 import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  base: '/su-holidays/',
+export default defineConfig(({ command }) => {
+  return {
+    plugins: [react(), tailwindcss(), {
+      name: 'html-transform',
+      transformIndexHtml(html) {
+        // Only inject the script if the command is 'build' (production)
+        if (command === 'build') {
+          return html.replace(
+            '</head>',
+            `<script defer src="https://cloud.umami.is/script.js" data-website-id="d3efc1f6-4929-4b1d-90c9-c51bae19b01a"></script></head>`
+          )
+        }
+        return html
+      },
+    },],
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'react-vendor': ['react', 'react-dom'],
+            'pdf-vendor': ['@react-pdf/renderer'],
+          },
+        },
+      },
+    },
+  }
 })

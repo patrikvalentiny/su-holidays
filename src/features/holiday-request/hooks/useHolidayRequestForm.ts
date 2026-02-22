@@ -1,6 +1,9 @@
 import { useState, useCallback } from 'react'
 import type { HolidayRequestData } from '../types'
 import { validateCPR, validateCVR } from '../utils/validation'
+import { useLocalStorage } from '../../../hooks/useLocalStorage'
+
+const STORAGE_KEY = 'holiday-request-form'
 
 const INITIAL_STATE: HolidayRequestData = {
     employeeName: '',
@@ -14,7 +17,7 @@ const INITIAL_STATE: HolidayRequestData = {
 }
 
 export const useHolidayRequestForm = () => {
-    const [formData, setFormData] = useState<HolidayRequestData>(INITIAL_STATE)
+    const [formData, setFormData] = useLocalStorage<HolidayRequestData>(STORAGE_KEY, INITIAL_STATE)
     const [errors, setErrors] = useState<Partial<Record<keyof HolidayRequestData, string>>>({})
 
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,12 +48,8 @@ export const useHolidayRequestForm = () => {
                 setErrors((prev) => ({ ...prev, companyCVR: undefined }))
             }
         }
-    }, [errors])
+    }, [errors, setFormData])
 
-    const handleReset = useCallback(() => {
-        setFormData(INITIAL_STATE)
-        setErrors({})
-    }, [])
 
     const isFormValid = useCallback((): boolean => {
         const isValid = !!(
@@ -70,7 +69,6 @@ export const useHolidayRequestForm = () => {
         formData,
         errors,
         handleChange,
-        handleReset,
         isFormValid,
     }
 }

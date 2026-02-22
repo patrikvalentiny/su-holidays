@@ -2,14 +2,14 @@ import { HolidayRequestForm, useHolidayRequestForm } from './features/holiday-re
 import './App.css'
 
 export default function App() {
-  const { formData, errors, handleChange, handleReset, isFormValid } = useHolidayRequestForm()
+  const { formData, errors, handleChange, isFormValid } = useHolidayRequestForm()
 
   return (
     <div className="min-h-screen bg-base-200 py-8 px-4">
-      <div className="max-w-3xl mx-auto space-y-8">
+      <div className="max-w-3xl mx-auto space-y-2">
         {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold text-base-content">SU Holiday Request Form</h1>
+        <div className="text-center">
+          <h1 className="text-xl font-bold text-base-content">SU Holiday Request Form</h1>
         </div>
 
         {/* Form */}
@@ -17,7 +17,6 @@ export default function App() {
           formData={formData}
           errors={errors}
           onFormChange={handleChange}
-          onReset={handleReset}
           isFormValid={isFormValid}
         />
 

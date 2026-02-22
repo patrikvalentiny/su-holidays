@@ -29,6 +29,13 @@ export const CompanySection: React.FC<CompanySectionProps> = ({ data, errors, on
                 placeholder="8 digits"
                 required
                 error={errors.companyCVR}
+                hint={
+                    <>
+                        <a href="https://datacvr.virk.dk" target="_blank" rel="noopener noreferrer" className="link link-info">
+                            https://datacvr.virk.dk
+                        </a>
+                    </>
+                }
             />
         </FormSection>
     )
