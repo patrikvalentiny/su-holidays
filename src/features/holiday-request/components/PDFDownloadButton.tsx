@@ -8,6 +8,7 @@ interface PDFDownloadButtonProps {
 
 const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({ data }) => (
     <PDFDownloadLink
+        data-umami-event="download_pdf"
         document={<HolidayRequestPDF data={data} />}
         fileName={`Holiday_Request_${data.employeeName.replace(/\s+/g, '_')}.pdf`}
         className="btn btn-primary flex-1 p-2"
