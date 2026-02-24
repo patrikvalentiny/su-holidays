@@ -15,11 +15,15 @@ export const FormInput: React.FC<FormInputProps> = ({
     hint,
     tooltip,
     className,
+    id,
+    name,
     ...props
 }) => {
+    const inputId = id || name || label.toLowerCase().replace(/\s+/g, '-');
+
     return (
         <div className="form-control w-full pt-2">
-            <div className="label pb-1">
+            <label htmlFor={inputId} className="label pb-1">
                 <span className="label-text text-base font-medium">
                     {label}
                     {required && <span className="text-error ml-1">*</span>}
@@ -31,8 +35,10 @@ export const FormInput: React.FC<FormInputProps> = ({
                         </span>
                     </span>
                 )}
-            </div>
+            </label>
             <input
+                id={inputId}
+                name={name}
                 {...props}
                 className={`input input-bordered w-full ${error ? 'input-error' : ''} ${className || ''}`}
             />

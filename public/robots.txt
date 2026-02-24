@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://su-holidays.pages.dev/sitemap.xml

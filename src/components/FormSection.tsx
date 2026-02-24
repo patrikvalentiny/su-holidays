@@ -16,11 +16,11 @@ export const FormSection: React.FC<FormSectionProps> = ({ title, children, isVal
                 : 'text-base-content'
 
     return (
-        <div className={`collapse collapse-arrow shadow-sm rounded-lg ${isValid === false ? 'bg-error/10' : 'bg-base-100'}`}>
+        <section className={`collapse collapse-arrow shadow-sm rounded-lg ${isValid === false ? 'bg-error/10' : 'bg-base-100'}`}>
             <input type="checkbox" defaultChecked name={title.toLowerCase().replace(/\s+/g, '-')} />
-            <div className={`collapse-title text-xl font-medium ${titleClass}`}>
+            <h2 className={`collapse-title text-xl font-medium ${titleClass}`}>
                 {title}
-            </div>
+            </h2>
             <div className="collapse-content">
                 <div className="">{children}</div>
                 {onReset && (
@@ -35,6 +35,6 @@ export const FormSection: React.FC<FormSectionProps> = ({ title, children, isVal
                     </div>
                 )}
             </div>
-        </div>
+        </section>
     )
 }
