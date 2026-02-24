@@ -12,7 +12,7 @@ export default defineConfig(({ command }) => {
         if (command === 'build') {
           return html.replace(
             '</head>',
-            `<script defer src="https://cloud.umami.is/script.js" data-website-id="d3efc1f6-4929-4b1d-90c9-c51bae19b01a"></script></head>`
+            `<script defer src="/stats.js" data-host-url="/" data-website-id="d3efc1f6-4929-4b1d-90c9-c51bae19b01a"></script></head>`
           )
         }
         return html
