@@ -58,7 +58,6 @@ export const useHolidayRequestForm = () => {
             formData.fromDate &&
             formData.toDate &&
             formData.workingDays &&
-            formData.employeeSignatureDate &&
             validateCPR(formData.employeeCPR) &&
             validateCVR(formData.companyCVR) &&
             (!formData.fromDate || !formData.toDate || formData.fromDate <= formData.toDate) &&

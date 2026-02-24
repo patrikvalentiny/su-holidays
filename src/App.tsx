@@ -5,8 +5,8 @@ export default function App() {
   const { formData, errors, handleChange, isFormValid, resetSection } = useHolidayRequestForm()
 
   return (
-    <div className="min-h-screen bg-base-200">
-      <div className="navbar bg-base-100 shadow-sm">
+    <div className="min-h-screen bg-base-200 font-sans">
+      <div className="navbar bg-base-100 shadow-sm px-4 lg:px-8">
         <div className="navbar-start">
         </div>
         <div className="navbar-center">
@@ -16,8 +16,8 @@ export default function App() {
 
         </div>
       </div>
-      <div className="py-4 px-4 lg:px-16">
-        <div className="max-w-3xl mx-auto space-y-2">
+      <div className="py-8 px-4 lg:px-8">
+        <div className="max-w-3xl mx-auto space-y-8">
           {/* Form */}
           <HolidayRequestForm
             formData={formData}

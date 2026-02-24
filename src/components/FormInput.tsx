@@ -18,9 +18,9 @@ export const FormInput: React.FC<FormInputProps> = ({
     ...props
 }) => {
     return (
-        <label className="form-control w-full">
-            <div className="label">
-                <span className="text-base-content font-medium">
+        <div className="form-control w-full pt-2">
+            <div className="label pb-1">
+                <span className="label-text text-base font-medium">
                     {label}
                     {required && <span className="text-error ml-1">*</span>}
                 </span>
@@ -44,6 +44,6 @@ export const FormInput: React.FC<FormInputProps> = ({
                     }
                 </div>
             )}
-        </label>
+        </div>
     )
 }

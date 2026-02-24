@@ -17,20 +17,20 @@ export const FormSection: React.FC<FormSectionProps> = ({ title, children, isVal
 
     return (
         <div className={`collapse collapse-arrow shadow-sm rounded-lg ${isValid === false ? 'bg-error/10' : 'bg-base-100'}`}>
-            <input type="checkbox" defaultChecked />
+            <input type="checkbox" defaultChecked name={title.toLowerCase().replace(/\s+/g, '-')} />
             <div className={`collapse-title text-xl font-medium ${titleClass}`}>
                 {title}
             </div>
             <div className="collapse-content">
-                <div className="space-y-4 pt-2">{children}</div>
+                <div className="">{children}</div>
                 {onReset && (
-                    <div className="flex justify-end pt-3">
+                    <div className="flex justify-end pt-2">
                         <button
                             type="button"
-                            className="btn btn-xs btn-ghost opacity-60 hover:opacity-100"
+                            className="btn btn-sm btn-ghost text-base-content/70 hover:text-base-content"
                             onClick={onReset}
                         >
-                            Reset
+                            Reset Section
                         </button>
                     </div>
                 )}

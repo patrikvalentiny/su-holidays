@@ -18,7 +18,6 @@ export const SignatureSection: React.FC<SignatureSectionProps> = ({ data, onChan
                 value={data.employeeSignatureDate}
                 onChange={onChange}
                 label="Date of Signature"
-                required
             />
         </FormSection>
     )

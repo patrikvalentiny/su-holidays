@@ -42,13 +42,11 @@ export const HolidayRequestForm: React.FC<HolidayRequestFormProps> = ({
         [!!formData.fromDate, !!formData.toDate, !!formData.workingDays],
         formData.fromDate && formData.toDate && formData.fromDate > formData.toDate ? true : false
     )
-    const signatureStatus = getSectionStatus(
-        [!!formData.employeeSignatureDate],
-        false
-    )
+    const signatureStatus = formData.employeeSignatureDate ? true : undefined;
+    
 
     return (
-        <form className="space-y-2">
+        <form className="space-y-2 mb-0">
             <EmployeeSection data={formData} errors={errors} onChange={onFormChange} isValid={employeeStatus} onReset={() => onResetSection(['employeeName', 'employeeCPR'])} />
             <CompanySection data={formData} errors={errors} onChange={onFormChange} isValid={companyStatus} onReset={() => onResetSection(['companyName', 'companyCVR'])} />
             <HolidayDatesSection data={formData} onChange={onFormChange} isValid={datesStatus} onReset={() => onResetSection(['fromDate', 'toDate', 'workingDays'])} />
@@ -57,11 +55,11 @@ export const HolidayRequestForm: React.FC<HolidayRequestFormProps> = ({
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
                 {isValid ? (
-                    <Suspense fallback={<button disabled className="flex-1 btn btn-primary p-2">Loading...</button>}>
+                    <Suspense fallback={<button disabled className="flex-1 btn btn-primary p-3">Loading...</button>}>
                         <PDFDownloadButton data={formData} />
                     </Suspense>
                 ) : (
-                    <button disabled className="flex-1 btn btn-primary btn-disabled p-2">
+                    <button disabled className="flex-1 btn p-3 cursor-not-allowed">
                         Fill All Fields to Generate PDF
                     </button>
                 )}
