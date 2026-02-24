@@ -10,60 +10,77 @@ interface HolidayRequestPDFProps {
 export const HolidayRequestPDF: React.FC<HolidayRequestPDFProps> = ({ data }) => (
     <Document>
         <Page size="A4" style={pdfStyles.page}>
-            <View style={pdfStyles.title}>
-                <Text>HOLIDAY REQUEST FORM</Text>
+            {/* Header */}
+            <View style={pdfStyles.header}>
+                <Text style={pdfStyles.title}>SU Holidays Request</Text>
             </View>
 
+            {/* Employee Information Section */}
             <View style={pdfStyles.section}>
+                <Text style={pdfStyles.sectionTitle}>Employee Information</Text>
                 <View style={pdfStyles.row}>
-                    <Text style={pdfStyles.label}>EMPLOYEE NAME:</Text>
-                    <Text style={pdfStyles.value}>{data.employeeName}</Text>
+                    <View style={pdfStyles.column}>
+                        <Text style={pdfStyles.label}>Employee Name</Text>
+                        <Text style={pdfStyles.value}>{data.employeeName}</Text>
+                    </View>
+                    <View style={pdfStyles.column}>
+                        <Text style={pdfStyles.label}>Employee ID / CPR Number</Text>
+                        <Text style={pdfStyles.value}>{data.employeeCPR}</Text>
+                    </View>
                 </View>
                 <View style={pdfStyles.row}>
-                    <Text style={pdfStyles.label}>EMPLOYEE CPR NUMBER:</Text>
-                    <Text style={pdfStyles.value}>{data.employeeCPR}</Text>
-                </View>
-                <View style={pdfStyles.row}>
-                    <Text style={pdfStyles.label}>COMPANY NAME:</Text>
-                    <Text style={pdfStyles.value}>{data.companyName}</Text>
-                </View>
-                <View style={pdfStyles.row}>
-                    <Text style={pdfStyles.label}>COMPANY CVR:</Text>
-                    <Text style={pdfStyles.value}>{data.companyCVR}</Text>
-                </View>
-            </View>
-
-            <View style={pdfStyles.section}>
-                <Text style={pdfStyles.sectionTitle}>HOLIDAYS REQUESTED</Text>
-                <View style={pdfStyles.row}>
-                    <Text style={pdfStyles.label}>FROM:</Text>
-                    <Text style={pdfStyles.value}>{formatDateForPDF(data.fromDate)}</Text>
-                </View>
-                <View style={pdfStyles.row}>
-                    <Text style={pdfStyles.label}>TO:</Text>
-                    <Text style={pdfStyles.value}>{formatDateForPDF(data.toDate)}</Text>
-                </View>
-                <View style={pdfStyles.row}>
-                    <Text style={pdfStyles.label}>TOTAL NUMBER OF WORKING DAYS:</Text>
-                    <Text style={pdfStyles.value}>{data.workingDays}</Text>
+                    <View style={pdfStyles.column}>
+                        <Text style={pdfStyles.label}>Company Name</Text>
+                        <Text style={pdfStyles.value}>{data.companyName}</Text>
+                    </View>
+                    <View style={pdfStyles.column}>
+                        <Text style={pdfStyles.label}>Company Registration / CVR</Text>
+                        <Text style={pdfStyles.value}>{data.companyCVR}</Text>
+                    </View>
                 </View>
             </View>
 
+            {/* Request Details Section */}
             <View style={pdfStyles.section}>
-                <Text style={pdfStyles.sectionTitle}>SIGNATURES</Text>
+                <Text style={pdfStyles.sectionTitle}>Request Details</Text>
+                <View style={pdfStyles.row}>
+                    <View style={pdfStyles.column}>
+                        <Text style={pdfStyles.label}>Start Date (From)</Text>
+                        <Text style={pdfStyles.value}>{formatDateForPDF(data.fromDate)}</Text>
+                    </View>
+                    <View style={pdfStyles.column}>
+                        <Text style={pdfStyles.label}>End Date (To)</Text>
+                        <Text style={pdfStyles.value}>{formatDateForPDF(data.toDate)}</Text>
+                    </View>
+                </View>
+                <View style={pdfStyles.row}>
+                    <View style={pdfStyles.column}>
+                        <Text style={pdfStyles.label}>Total Working Days</Text>
+                        <Text style={pdfStyles.value}>{data.workingDays}</Text>
+                    </View>
+                </View>
+            </View>
+
+            {/* Signatures Section */}
+            <View style={pdfStyles.section}>
+                <Text style={pdfStyles.sectionTitle}>Signatures</Text>
+                
                 <View style={pdfStyles.signatureRow}>
                     <View style={pdfStyles.signatureBox}>
-                        <Text>EMPLOYEE SIGNATURE</Text>
                         <View style={pdfStyles.signatureLine} />
+                        <Text style={pdfStyles.signatureLabel}>Employee Signature</Text>
                     </View>
                     <View style={pdfStyles.signatureBox}>
-                        <Text>EMPLOYER SIGNATURE</Text>
                         <View style={pdfStyles.signatureLine} />
+                        <Text style={pdfStyles.signatureLabel}>Employer Signature</Text>
                     </View>
                 </View>
-                <View style={[pdfStyles.row, { marginTop: 30 }]}>
-                    <Text style={pdfStyles.label}>DATE OF SIGNATURE:</Text>
-                    <Text style={pdfStyles.value}>{formatDateForPDF(data.employeeSignatureDate)}</Text>
+                
+                <View style={[pdfStyles.row, { marginTop: 20 }]}>
+                    <View style={pdfStyles.column}>
+                        <Text style={pdfStyles.label}>Date of Signature</Text>
+                        <Text style={pdfStyles.value}>{formatDateForPDF(data.employeeSignatureDate)}</Text>
+                    </View>
                 </View>
             </View>
         </Page>

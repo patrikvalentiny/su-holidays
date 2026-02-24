@@ -1,54 +1,93 @@
 import { StyleSheet } from '@react-pdf/renderer'
 
+const accentColor = '#475569' // Slate-600 like color
+const textLight = '#64748b' // Slate-500
+
 export const pdfStyles = StyleSheet.create({
     page: {
-        padding: 40,
-        fontSize: 12,
+        padding: 50,
+        fontSize: 10,
         fontFamily: 'Helvetica',
+        color: '#1e293b', // Slate-800
+        lineHeight: 1.5,
+    },
+    header: {
+        marginBottom: 40,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     title: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        textAlign: 'center',
+        fontSize: 24,
+        fontFamily: 'Helvetica-Bold',
+        letterSpacing: -0.5,
+        color: '#0f172a', // Slate-900
     },
     section: {
-        marginBottom: 20,
+        marginBottom: 30,
     },
     sectionTitle: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        marginBottom: 10,
+        fontSize: 11,
+        fontFamily: 'Helvetica-Bold',
+        color: accentColor,
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+        marginBottom: 15,
         borderBottomWidth: 1,
+        borderBottomColor: '#e2e8f0', // Slate-200
         paddingBottom: 5,
     },
     row: {
-        display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 8,
+        marginBottom: 12,
+    },
+    column: {
+        flexDirection: 'column',
+        width: '48%',
+    },
+    fieldContainer: {
+        marginBottom: 12,
     },
     label: {
-        fontWeight: 'bold',
-        width: '40%',
+        fontSize: 8,
+        fontFamily: 'Helvetica-Bold',
+        color: textLight,
+        marginBottom: 4,
+        textTransform: 'uppercase',
     },
     value: {
-        width: '60%',
+        fontSize: 11,
+        fontFamily: 'Helvetica',
         borderBottomWidth: 1,
-        paddingBottom: 2,
+        borderBottomColor: '#cbd5e1', // Slate-300
+        paddingBottom: 4,
+        minHeight: 18,
+    },
+    gridTwo: {
+        flexDirection: 'row',
+        columnGap: 20,
+    },
+    signatureSection: {
+        marginTop: 40,
     },
     signatureRow: {
-        display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 30,
+        marginTop: 20,
     },
     signatureBox: {
         width: '45%',
     },
     signatureLine: {
         borderTopWidth: 1,
-        marginTop: 30,
-        paddingTop: 5,
+        borderTopColor: '#cbd5e1',
+        marginTop: 40,
+    },
+    signatureLabel: {
+        fontSize: 8,
+        fontFamily: 'Helvetica-Bold',
+        color: textLight,
+        marginTop: 8,
     },
 })
